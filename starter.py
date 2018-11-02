@@ -12,7 +12,7 @@ SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"
 if __name__ == "__main__":
     # 获取用户提问
     # question = get_question()
-    question = "技术部听得到吗"
+    question = "活动部和技术部听得到吗"
 
     # 将问题发送给LUIS,获取prediction
     prediction = get_prediction(SUBSCRIPTION_KEY_ENV_NAME,question)
