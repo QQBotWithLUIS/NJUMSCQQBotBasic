@@ -16,7 +16,13 @@ CWD = os.path.dirname(__file__)
     @param query_in: 问题
 
     return 格式如下
-    {'query': '活动部是干什么的', 'top_scoring_intent': {'intent': '询问活动', 'score': 0.9997649}, 'entities': [{'score': 0.9993229, 'entity': '活动部', 'type': '名字::部门', 'start_index': 0, 'end_index': 2}]}
+    {'query': '活动部是干什么的', 
+    'top_scoring_intent': {'intent': '询问活动', 'score': 0.9997649}, 
+    'entities': [{'score': 0.9993229, 
+                'entity': '活动部', 
+                'type': '名字::部门', 
+                'start_index': 0, 'end_index': 2}]
+    }
 
 '''
 
