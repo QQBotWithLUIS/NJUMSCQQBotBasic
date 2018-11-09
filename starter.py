@@ -9,11 +9,11 @@ if __name__ == "__main__":
     question = "活动部是干什么的"
 
     # 将问题发送给LUIS,获取prediction
-    prediction = get_prediction(SUBSCRIPTION_KEY_ENV_NAME,question)
-    print (prediction.as_dict())
+    prediction = get_prediction(SUBSCRIPTION_KEY_ENV_NAME, question)
+    print(prediction.as_dict())
 
     ans = ""
-    print (len(prediction.entities))
+    print(len(prediction.entities))
     # 判断有无实体
     if len(prediction.entities) > 0:
         # 调用处理实体的函数并获得回答
