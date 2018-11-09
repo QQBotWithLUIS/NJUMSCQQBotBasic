@@ -1,6 +1,7 @@
 import json
 import os.path
 from pprint import pprint
+from typing import Any
 
 from azure.cognitiveservices.language.luis.runtime import LUISRuntimeClient
 
@@ -20,7 +21,8 @@ CWD = os.path.dirname(__file__)
 
 '''
 
-def get_prediction(subscription_key,query_in):
+
+def get_prediction(subscription_key: str, query_in: str) -> Any:
     """Resolve.
 
     This will execute LUIS prediction
