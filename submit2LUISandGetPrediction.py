@@ -67,8 +67,9 @@ def get_prediction(subscription_key: str, query_in: str) -> Any:
 
 
 if __name__ == "__main__":
-    import sys, os.path
+    import sys
+    import os.path
     sys.path.append(os.path.abspath(os.path.join(__file__, "..", "..")))
 
-    get_prediction(SUBSCRIPTION_KEY_ENV_NAME,"你好")
+    get_prediction(SUBSCRIPTION_KEY_ENV_NAME, "你好")
 
