@@ -7,13 +7,11 @@ import json
 @on_command('inform', permission=perm.SUPERUSER)
 async def inform(session: CommandSession):
     group_id = session.get('group_id', prompt='想发通知的群号是？')
-    # inform_all = session.get('inform_all', prompt='是否at全体？')
+    # inform_all = session.get('inform_all', prompt='是否at全体？')  at全体和获得群号列表都还不会
     content = session.get('content', prompt='通知的内容是？')
     # group_id_list = await session.bot.get_group_list()
-    # if group_id not in group_id_list:
-    #     session.send("你并未加入群组{}".format(group_id))
     try:
-        await session.bot.send_group_msg(group_id=group_id, message=content)
+        await session.bot.send_group_msg(group_id=group_id, message=content)  # 内容中的换行会被空格替代
     except aiocqhttp.exceptions.ActionFailed as e:
         await session.send("你并未加入群组{}，请重新执行命令".format(group_id))
     else:
