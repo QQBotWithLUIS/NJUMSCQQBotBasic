@@ -1,19 +1,24 @@
-
 from submit2LUISandGetPrediction import get_prediction
 # GRP ADD BEGIN
 from EntitiesSwitch import entities_match
 from EntitiesSwitch import entities_ans
 from EntitiesSwitch import entities_module_match
 from EntitiesSwitch import entities_module_ans
+
 # GRP ADD END
+
+from none import on_natural_language,NLPSession
+
+
 
 SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"
 
-if __name__ == "__main__":
-    # 获取用户提问
-    # question = get_question()
-    question = "活动部和技术部听得到吗"
 
+@on_natural_language(keywords=('',))
+async def getMassage(session: NLPSession):
+
+    # 获取用户提问
+    question=str(session.msg_text.strip())
     # 将问题发送给LUIS,获取prediction
     prediction = get_prediction(SUBSCRIPTION_KEY_ENV_NAME,question)
     # print("得到的划分为：")
@@ -36,15 +41,14 @@ if __name__ == "__main__":
             ans = entities_module_ans(entities_index)
 
         #test code
+
         print(ans)
         # GRP ADD END
         # 调用处理实体的函数并获得回答
         # ans = ""
         pass
     else:
-        # 将prediction发送给QnA maker 
-        # ans = "" 
+        # 将prediction发送给QnA maker
+        # ans = ""
         pass
-    
     # 将ans返回给用户
-
