@@ -1,4 +1,3 @@
-
 from submit2LUISandGetPrediction import get_prediction
 # GRP ADD BEGIN
 from EntitiesSwitch import entities_match
