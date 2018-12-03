@@ -2,6 +2,7 @@ from function.submit2LUISandGetPrediction import get_prediction
 # GRP ADD BEGIN
 from function.EntitiesSwitch import entities_module_match
 from function.EntitiesSwitch import entities_module_ans
+import time
 
 # GRP ADD END
 
@@ -14,6 +15,7 @@ SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"
 @on_natural_language(keywords=('',), only_to_me=False)
 async def getMassage(session: NLPSession):
 
+    start = time.clock()
     # 获取用户提问
     question = str(session.msg_text.strip())
     # 将问题发送给LUIS,获取prediction
@@ -23,7 +25,9 @@ async def getMassage(session: NLPSession):
     # print ("得到的划分:\n" + prediction.as_dict())
 
     ans = ""
+
     print (len(prediction.entities))
+    end = time.clock()
     # print (prediction.entities[0].as_dict()['entity'])
     # 判断有无实体
     if len(prediction.entities) > 0:
@@ -40,13 +44,13 @@ async def getMassage(session: NLPSession):
         # test code
 
         # print(ans)
-        await session.send(ans)
+        await session.send(ans+" 本次查询耗时"+str(end-start)+"秒")
         # GRP ADD END
         # 调用处理实体的函数并获得回答
         # ans = ""
         pass
     else:
-        await session.send("机器人宕机中。")
+        # await session.send("机器人宕机中。")
         # 将prediction发送给QnA maker
         # ans = ""
         pass
