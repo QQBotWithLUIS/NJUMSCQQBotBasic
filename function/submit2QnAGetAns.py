@@ -18,11 +18,13 @@ question = {
     'top': 1
 }
 
-def pretty_print (content):
-# Note: We convert content to and from an object so we can pretty-print it.
+
+def pretty_print(content):
+    # Note: We convert content to and from an object so we can pretty-print it.
     return json.dumps(json.loads(content), indent=4)
 
-def get_answers (content):
+
+def get_answers(content):
     kb = "d4e8a182-75a4-4fd5-a07f-3709a969d63a"
 
     path = "/qnamaker/knowledgebases/" + kb + "/generateAnswer"
@@ -41,6 +43,5 @@ def get_answers (content):
 
 # Convert the request to a string.
 content = json.dumps(question)
-print (content)
 result = get_answers(content)
 print(pretty_print(result).encode('utf-8').decode('unicode_escape'))

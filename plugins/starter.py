@@ -1,7 +1,8 @@
 from function.submit2LUISandGetPrediction import get_prediction
 # GRP ADD BEGIN
-from function.EntitiesSwitch import entities_module_match
-from function.EntitiesSwitch import entities_module_ans
+from function.EntitiesSwitch import *
+from function.submit2QnAGetAns import *
+
 import time
 
 # GRP ADD END
@@ -12,10 +13,10 @@ from none import on_natural_language,NLPSession
 SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"
 
 
-@on_natural_language(keywords=('',), only_to_me=False)
+@on_natural_language(keywords=('',), only_to_me=False)  # 关掉only_to_me可应答群消息
 async def getMassage(session: NLPSession):
 
-    start = time.clock()
+    start = time.clock()  # 测试总查询用时
     # 获取用户提问
     question = str(session.msg_text.strip())
     # 将问题发送给LUIS,获取prediction
@@ -25,9 +26,8 @@ async def getMassage(session: NLPSession):
     # print ("得到的划分:\n" + prediction.as_dict())
 
     ans = ""
+    print(len(prediction.entities))
 
-    print (len(prediction.entities))
-    end = time.clock()
     # print (prediction.entities[0].as_dict()['entity'])
     # 判断有无实体
     if len(prediction.entities) > 0:
@@ -40,18 +40,23 @@ async def getMassage(session: NLPSession):
         else:
             # ans = entities_ans(entities_index)
             ans = entities_module_ans(entities_index)
-
-        # test code
-
-        # print(ans)
-        await session.send(ans+" 本次查询耗时"+str(end-start)+"秒")
         # GRP ADD END
-        # 调用处理实体的函数并获得回答
-        # ans = ""
         pass
     else:
-        # await session.send("机器人宕机中。")
+        query = {
+            'question': question,
+            'top': 1
+        }
+        content = json.dumps(query)
+        print("content= "+content)
         # 将prediction发送给QnA maker
-        # ans = ""
+        result = get_answers(content)
+        ans = pretty_print(result).encode('utf-8').decode('unicode_escape').split('answer')[2].split('"')[2]
+        # 将ans返回给用户
         pass
-    # 将ans返回给用户
+    end = time.clock()
+    if not ans:
+        await session.send(ans + " 本次查询耗时" + str(end - start) + "秒")
+
+
+
