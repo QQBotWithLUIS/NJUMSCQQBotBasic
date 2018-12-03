@@ -1,4 +1,4 @@
 /.idea
 /.vscode
 /_pycache_
-/function/_pycache_
+*.pyc
