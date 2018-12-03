@@ -26,6 +26,7 @@ CWD = os.path.dirname(__file__)
 
 '''
 
+
 def get_prediction(subscription_key,query_in):
     """Resolve.
 
@@ -61,7 +62,7 @@ def get_prediction(subscription_key,query_in):
         #         int(entity.additional_properties['score']*100)
         #     ))
             
-        # print("\nComplete result object as dictionnary")
+        # print("\nComplete result object as dictionary")
         # pprint(result.as_dict())
 
         return result
@@ -74,5 +75,5 @@ if __name__ == "__main__":
     import sys, os.path
     sys.path.append(os.path.abspath(os.path.join(__file__, "..", "..")))
 
-    get_prediction(SUBSCRIPTION_KEY_ENV_NAME,"你好")
+    get_prediction(SUBSCRIPTION_KEY_ENV_NAME, "你好")
 
