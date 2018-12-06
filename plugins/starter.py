@@ -14,7 +14,7 @@ SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"
 
 
 @on_natural_language(keywords=('',), only_to_me=False)  # 关掉only_to_me可应答群消息
-async def getMassage(session: NLPSession):
+async def get_massage(session: NLPSession):
 
     start = time.clock()  # 测试总查询用时
     # 获取用户提问

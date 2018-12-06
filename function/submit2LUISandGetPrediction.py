@@ -27,7 +27,7 @@ CWD = os.path.dirname(__file__)
 '''
 
 
-def get_prediction(subscription_key,query_in):
+def get_prediction(subscription_key, query_in):
     """Resolve.
 
     This will execute LUIS prediction
