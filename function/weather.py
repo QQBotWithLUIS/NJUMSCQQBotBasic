@@ -7,13 +7,13 @@ import xmltodict
 # 参考的博客与库:"https://blog.csdn.net/x_iya/article/details/52189750"
 #               "https://github.com/ruixingchen/ChinaCityList"
 
-city_key = "http://mobile.weather.com.cn/js/citylist.xml"
+query_url = "http://mobile.weather.com.cn/js/citylist.xml"
 
 
 def query_weather(city_name: str, county_name: str = None)->dict:
     if not county_name:
         county_name = city_name
-    code = get_county_code(city_name, county_name)
+    code = get_specific_code(city_name, county_name)
 
     if not code:
         # 应该raise exception的，不过晚点再做……
@@ -28,12 +28,13 @@ def query_weather(city_name: str, county_name: str = None)->dict:
         return tree
 
 
-def get_county_code(city_name:str, county_name:str)->str:
+def get_specific_code(city_name: str, county_name: str)->str:
+    # 根据城市名与县名查找具体的地区代码(似乎城市名也没必要用，不过，管他呢)
     with open("../files/ChinaCityList.json", 'r', encoding='UTF-8') as f:
         province_list = json.load(f, encoding="UTF-8")
 
     code = ""
-    # name_en = ""
+    # name_en = "" 城市拼音，不过似乎暂时用不到
     for province in province_list:
         for city in province["city"]:
             if city["name"] == city_name:
