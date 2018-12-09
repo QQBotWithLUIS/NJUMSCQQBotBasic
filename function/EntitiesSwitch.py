@@ -27,8 +27,8 @@ def entities_ans(index):
 def entities_module_match(data):
     """前面的函数虽然实现了一定的功能，但是在同一大类的实体识别的时候，运维十分的繁琐
        或许可以增加一个以大类进行识别的方式"""
-    technology_team = ["技术部","技术队","技术家园"]
-    activity_team = ["活动部","活动队"]
+    technology_team = ["技术部", "技术队", "技术家园"]
+    activity_team = ["活动部", "活动队"]
 
     entities_module_list = [technology_team, activity_team]
 
