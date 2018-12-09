@@ -21,6 +21,7 @@ question = {
 
 def pretty_print(content):
     # Note: We convert content to and from an object so we can pretty-print it.
+    # print ("content"+content)
     return json.dumps(json.loads(content), indent=4)
 
 
@@ -38,10 +39,11 @@ def get_answers(content):
     conn = http.client.HTTPSConnection(host)
     conn.request ("POST", path, content, headers)
     response = conn.getresponse()
+
     return response.read()
 
 
 # Convert the request to a string.
 content = json.dumps(question)
 result = get_answers(content)
-print(pretty_print(result).encode('utf-8').decode('unicode_escape'))
+# print(pretty_print(result).encode('utf-8').decode('unicode_escape'))
