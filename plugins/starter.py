@@ -4,6 +4,7 @@ from function.EntitiesSwitch import *
 from function.submit2QnAGetAns import *
 
 import time
+import json
 
 # GRP ADD END
 
@@ -53,10 +54,12 @@ async def getMassage(session: NLPSession):
         result = get_answers(content)
         ans = pretty_print(result).encode('utf-8').decode('unicode_escape').split('answer')[2].split('"')[2]
         # 将ans返回给用户
-        pass
-    end = time.clock()
-    if not ans:
-        await session.send(ans + " 本次查询耗时" + str(end - start) + "秒")
+        if ans=="No good match found in KB.":
+            pass
+        else:
+            end = time.clock()
+            await session.send(ans + " 本次查询耗时" + str(end - start) + "秒")
+
 
 
 

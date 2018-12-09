@@ -43,7 +43,7 @@ def get_prediction(subscription_key,query_in):
 
         print("Executing query: {}".format(query))
         result = client.prediction.resolve(
-            "204f9894-2f57-4c7d-889f-31f2df44f0f3",  # LUIS Application ID
+            "dc022f4c-ecbb-42cb-ba85-ce87ca42d0bd",  # LUIS Application ID
             query
         )
 
