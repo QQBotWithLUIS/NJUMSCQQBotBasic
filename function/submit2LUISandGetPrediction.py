@@ -26,7 +26,8 @@ CWD = os.path.dirname(__file__)
 
 '''
 
-def get_prediction(subscription_key,query_in):
+
+def get_prediction(subscription_key, query_in):
     """Resolve.
 
     This will execute LUIS prediction
@@ -42,7 +43,7 @@ def get_prediction(subscription_key,query_in):
 
         print("Executing query: {}".format(query))
         result = client.prediction.resolve(
-            "204f9894-2f57-4c7d-889f-31f2df44f0f3",  # LUIS Application ID
+            "dc022f4c-ecbb-42cb-ba85-ce87ca42d0bd",  # LUIS Application ID
             query
         )
 
@@ -61,7 +62,7 @@ def get_prediction(subscription_key,query_in):
         #         int(entity.additional_properties['score']*100)
         #     ))
             
-        # print("\nComplete result object as dictionnary")
+        # print("\nComplete result object as dictionary")
         # pprint(result.as_dict())
 
         return result
@@ -74,5 +75,5 @@ if __name__ == "__main__":
     import sys, os.path
     sys.path.append(os.path.abspath(os.path.join(__file__, "..", "..")))
 
-    get_prediction(SUBSCRIPTION_KEY_ENV_NAME,"你好")
+    get_prediction(SUBSCRIPTION_KEY_ENV_NAME, "你好")
 
