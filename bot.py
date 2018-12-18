@@ -4,6 +4,5 @@ import config
 
 if __name__ == '__main__':
     none.init(config)
-    none.load_plugins(path.join(path.dirname(__file__),  'plugins'),
-                      'plugins')
+    none.load_plugins(path.join(path.dirname(__file__), 'plugins'), 'plugins')
     none.run()
