@@ -2,6 +2,10 @@ from function.submit2LUISandGetPrediction import get_prediction
 # GRP ADD BEGIN
 from function.EntitiesSwitch import *
 from function.submit2QnAGetAns import *
+from function.weather import *
+from none import CommandSession
+
+import re
 
 import time
 import json

@@ -5,7 +5,8 @@ import json
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as xd
 import xmltodict
-from lxml import etree, objectify
+from lxml import etree
+
 import os
 
 # 参考的博客与库:"https://blog.csdn.net/x_iya/article/details/52189750"
@@ -29,7 +30,8 @@ def query_weather(city_name: str, county_name: str = None)->str:
 
     if not code:
         # 应该raise exception的，不过晚点再做……
-        return fail_msg_1
+        raise Exception(fail_msg_1)
+        # return fail_msg_1
 
     r = requests.get("http://wthrcdn.etouch.cn/WeatherApi?citykey="+code, timeout=3)
     if r.status_code == requests.codes.ok:
@@ -38,17 +40,16 @@ def query_weather(city_name: str, county_name: str = None)->str:
         # tree = xd.parseString(r.content)
         tree = xmltodict.parse(r.content)
         # tree = etree.fromstring(r.content)
-        # further processing...
         # return etree.tostring(tree, pretty_print=True, encoding="utf-8").decode('utf-8')
-        print(etree.tostring(etree.fromstring(r.content), pretty_print=True, encoding="utf-8").decode('utf-8'))
+        # print(etree.tostring(etree.fromstring(r.content), pretty_print=True, encoding="utf-8").decode('utf-8'))
         return pretty(tree['resp'])
     else:
-        return fail_msg_2
-
+        # return fail_msg_2
+        raise Exception(fail_msg_2)
 
 def get_specific_code(city_name: str, county_name: str)->str:
     # 根据城市名与县名查找具体的地区代码(似乎城市名也没必要用，不过，管他呢)
-    # path = os.path.join(os.pardir, 'files', 'ChinaCityList.json') 单独测试这个文件时用这个目录
+    # path = os.path.join(os.pardir, 'files', 'ChinaCityList.json') # 单独测试这个文件时用这个目录
     path = os.path.join(os.getcwd(), 'files', 'ChinaCityList.json')
 
     # with open("../files/ChinaCityList.json", 'r', encoding='UTF-8') as f:
@@ -70,28 +71,33 @@ def get_specific_code(city_name: str, county_name: str)->str:
 
 def pretty(root: OrderedDict)->str:
 
-    head = "地区：{0}，当前温度{1}℃，湿度{2}。".format(root['city'], root['wendu'], root['shidu'])
+
+    head = "下面由小澄为您播报{0}的天气情况，此时温度为{1}℃。\n".format(root['city'], root['wendu'])
     if 'environment' in root:
         environment = root['environment']
-        envir = "pm2.5指数为{0}，空气质量{1}，{2}。".format(environment['pm25'], environment['quality'], environment['suggest'])
-        head = head+envir
-    forecast = root['forecast']['weather']
-    # zhishus = root['zhishus']
+        envir = '空气指数(AQI)是{0}，空气质量为{1}，风力等级为{2}。小澄的建议是{3}。\n'.format(environment['aqi'],environment['quality'],root['fengli'],environment['suggest'])
+        head=head.replace('\n',envir)
 
-    result = [head]
-    for i in range(0, 5):
-        day_info = "白天{0}，{1}{2}"\
-            .format(forecast[i]['day']['type'], forecast[i]['day']['fengxiang'], forecast[i]['day']['fengli'])
-        night_info = "夜晚{0}，{1}{2}" \
-            .format(forecast[i]['night']['type'], forecast[i]['night']['fengxiang'], forecast[i]['night']['fengli'])
-        s = "{0}，最高温{1}，最低温{2}。{3}，{4}。"\
-            .format(forecast[i]['date'], forecast[i]['high'][3:], forecast[i]['low'][3:], day_info, night_info)
-        result.append(s)
-    return "\n".join(result)
+    forecast = root['forecast']['weather']
+    zhishus = root['zhishus']['zhishu']
+    head=head+"我们来看看今天总体的天气情况，"
+
+    today = root['yesterday']
+    head=head+'最{0}，最{1}。白天{2}，夜晚{3}。'\
+        .format(today['high_1'],today['low_1'],today['day_1']['type_1'],today['night_1']['type_1'])
+    head=head+"穿衣建议为{0}不知道同学你的衣服晒好了么？今天的晾晒建议是{1}；{2}"\
+        .format(zhishus[2]['detail'],zhishus[4]['value'],zhishus[4]['detail'])
+    head = head + "怕被浇成落汤鸡？小澄为您遮风挡雨。今天是否需要带伞呢？{0}。建议是：{1}\n"\
+        .format(zhishus[10]['value'], zhishus[10]['detail'])
+
+    tomorrow = forecast[0]
+    head = head + "下面由小澄播报明天的天气状况，明天即{0}，最{1}，最{2}，白天{3}，夜晚{4}。不知道小澄的天气播报是否让您满意呢？(#^.^#)" \
+        .format(tomorrow['date'],tomorrow['high'],tomorrow['low'],tomorrow['day']['type'],tomorrow['night']['type'] )
+    return head
 
 
 if __name__ == "__main__":
-    res = query_weather("北京")
+    res = query_weather("南京")
     print(res)
 
 
