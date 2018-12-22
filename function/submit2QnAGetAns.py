@@ -42,6 +42,8 @@ def get_answers(content):
 
     return response.read()
 
+def get_answers_from_file(content):
+
 
 # Convert the request to a string.
 content = json.dumps(question)

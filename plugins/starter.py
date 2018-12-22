@@ -52,6 +52,7 @@ async def get_massage(session: NLPSession):
         print("content= "+content)
         # 将prediction发送给QnA maker
         result = get_answers(content)
+        print (pretty_print(result))
         ans = pretty_print(result).encode('utf-8').decode('unicode_escape').split('answer')[2].split('"')[2]
         # 将ans返回给用户
         if ans=="No good match found in KB.":
