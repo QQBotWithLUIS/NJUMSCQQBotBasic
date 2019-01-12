@@ -1,2 +1,2 @@
 # NJUMSCQQBotBasic
-基于网上众多库和Microsoft LUIS的QQBOT
+基于酷Q和Microsoft LUIS的QQBOT
