@@ -1,10 +1,6 @@
-import json
 import os.path
-from pprint import pprint
-from typing import Any
 
 from azure.cognitiveservices.language.luis.runtime import LUISRuntimeClient
-
 from msrest.authentication import CognitiveServicesCredentials
 
 SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"

@@ -1,26 +1,19 @@
-from function.submit2LUISandGetPrediction import get_prediction
+import time
+
+from nonebot import on_natural_language, NLPSession
+
 # GRP ADD BEGIN
 from function.EntitiesSwitch import *
+from function.submit2LUISandGetPrediction import get_prediction
 from function.submit2QnAGetAns import *
-from function.weather import *
-from none import CommandSession
-
-import re
-
-import time
-import json
 
 # GRP ADD END
-
-from none import on_natural_language,NLPSession
-
 
 SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"
 
 
 @on_natural_language(keywords=('',), only_to_me=False)  # 关掉only_to_me可应答群消息
 async def get_massage(session: NLPSession):
-
     start = time.clock()  # 测试总查询用时
     # 获取用户提问
     question = str(session.msg_text.strip())
@@ -45,7 +38,7 @@ async def get_massage(session: NLPSession):
         else:
             # ans = entities_ans(entities_index)
             ans = entities_module_ans(entities_index)
-            await session.send(ans )
+            await session.send(ans)
         # GRP ADD END
         pass
     else:
@@ -59,16 +52,12 @@ async def get_massage(session: NLPSession):
         # result = get_answers(content)
         # print (pretty_print(result))
         # ans = pretty_print(result).encode('utf-8').decode('unicode_escape').split('answer')[2].split('"')[2]
-        print("ques"+question)
+        print("ques" + question)
         ans = get_answers_from_file(question)
-        print ("ans"+ans)
+        print("ans" + ans)
         # 将ans返回给用户
-        if ans=="No answer":
+        if ans == "No answer":
             pass
         else:
             end = time.clock()
             await session.send(ans)
-
-
-
-

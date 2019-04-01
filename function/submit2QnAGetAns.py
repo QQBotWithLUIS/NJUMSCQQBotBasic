@@ -1,9 +1,9 @@
-
 # -*- coding: utf-8 -*-
 
-import http.client, urllib.parse, json, time
+import http.client
+import json
 import random
-from pprint import pprint
+
 # a valid host name.
 host = "se-service-robot.azurewebsites.net"
 
@@ -31,21 +31,21 @@ def get_answers(content):
 
     path = "/qnamaker/knowledgebases/" + kb + "/generateAnswer"
 
-    print ('Calling ' + host + path + '.')
+    print('Calling ' + host + path + '.')
     headers = {
         'Authorization': 'EndpointKey ' + endpoint_key,
         'Content-Type': 'application/json',
         'Content-Length': len(content)
     }
     conn = http.client.HTTPSConnection(host)
-    conn.request ("POST", path, content, headers)
+    conn.request("POST", path, content, headers)
     response = conn.getresponse()
 
     return response.read()
 
 
 def get_answers_from_file(content):
-    with open("files/qna.json","r",encoding="UTF-8") as qna:
+    with open("files/qna.json", "r", encoding="UTF-8") as qna:
         qna_list = json.load(qna)
         for item in qna_list["qna"]:
             if item["intent"] == content:
