@@ -108,7 +108,7 @@ async def group_msg(session: CommandSession):
     else:
         bot = get_bot()
         try:
-            await bot.send_group_msg(user_id=to, message=msg)
+            await bot.send_group_msg(group_id=to, message=msg)
             await session.finish("发送成功")
         except ActionFailed:
             await session.finish('发送失败')
