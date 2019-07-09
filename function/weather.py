@@ -25,9 +25,8 @@ def query_weather(city_name: str, county_name: str = None) -> str:
     code = get_specific_code(city_name, county_name)
 
     if not code:
-        # 应该raise exception的，不过晚点再做……
-        raise Exception(fail_msg_1)
-        # return fail_msg_1
+        # 查询不到相应的城市代码，返回失败信息
+        return fail_msg_1
 
     r = requests.get("http://wthrcdn.etouch.cn/WeatherApi?citykey=" + code, timeout=3)
     if r.status_code == requests.codes.ok:
