@@ -59,8 +59,9 @@ async def get_massage(session: NLPSession):
         # result = get_answers(content)
         # print (pretty_print(result))
         # ans = pretty_print(result).encode('utf-8').decode('unicode_escape').split('answer')[2].split('"')[2]
-        print("ques"+question)
-        ans = get_answers_from_file(question)
+        content=prediction.top_scoring_intent.intent
+        print("ques"+content)
+        ans = get_answers_from_file(content)
         print ("ans"+ans)
         # 将ans返回给用户
         if ans=="No answer":
