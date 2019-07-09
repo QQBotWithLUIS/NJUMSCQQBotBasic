@@ -124,7 +124,7 @@ async def get_group_list(session: CommandSession):
     bot = get_bot()
     try:
         l = await bot.get_group_list()
-        await session.finish('\n'.join(format_group_list(l)))
+        await session.finish('\n'.join(map(lambda x: format_group(x), l)))
     except ActionFailed:
         await session.finish('抱歉，查询失败')
 
@@ -142,6 +142,21 @@ async def get_group_info(session: CommandSession):
         await session.finish(format_group_info(info))
     except ActionFailed:
         session.finish('抱歉，查询失败')
+
+
+@on_command('获取群成员列表', only_to_me=True, shell_like=True, permission=perm.SUPERUSER)
+async def get_group_member_list(session: CommandSession):
+    parser = ArgumentParser(session=session,
+                            prompt=prompt_super,
+                            usage='获取群成员列表 [-h] -t <目标群号> (本指令管理员可用)')
+    parser.add_argument('-t', '--target', help='想要获取其群成员列表的群QQ号')
+    args = parser.parse_args(session.argv)
+    bot = get_bot()
+    try:
+        member_list = await bot.get_group_member_list(group_id=int(args.target))
+        await session.finish('\n'.join(map(lambda x: format_group_member_info(x), member_list)))
+    except ActionFailed:
+        await session.finish('抱歉，查询失败')
 
 
 @on_command("获取群成员信息", only_to_me=True, shell_like=True, permission=perm.SUPERUSER)
@@ -198,10 +213,11 @@ async def get_command_help(session: CommandSession):
     h4 = "4. \'获取本号好友列表\'(不稳定)"
     h5 = "5. \'获取本号群列表\'"
     h6 = "6. \'获取群资料\' --target/-t <目标群组id>"
-    h7 = "7. \'获取群成员信息\' --group_id/-g <目标群组号> --user_id/-u <目标成员QQ号>"
+    h7 = "7. \'获取群成员列表\' --target/-t <目标群组id>"
+    h8 = "8. \'获取群成员信息\' --group_id/-g <目标群组号> --user_id/-u <目标成员QQ号>"
     # 根据权限发送相应的帮助信息
     if is_superuser:
-        await session.send('\n'.join([h0, h1, h2, h3, h4, h5, h6, h7, he]))
+        await session.send('\n'.join([h0, h1, h2, h3, h4, h5, h6, h7, h8, he]))
     else:
         await session.send('\n'.join([h0, h1, h2, h3, he]))
 
@@ -216,19 +232,27 @@ def format_friend_list(friend_group_list: list):
     res = []
 
 
-def format_group_list(group_list: list):
-    res = list(map(lambda x: '群号: ' + str(x['group_id']) + ', 群名称: ' + str(x['group_name']), group_list))
+def format_group(group: dict):
+    res = '群号: ' + str(group['group_id']) + ', 群名称: ' + str(group['group_name'])
     return res
 
 
 def format_group_info(group_info: dict):
     admins = group_info['admins']
     admins_formatted = list(
-        map(lambda x: '昵称: ' + x['nickname'] + ', 身份: ' + x['role'] + ', QQ号: ' + str(x['user_id']), admins))
+        map(lambda x: 'Q名: ' + x['nickname'] + ', 身份: ' + x['role'] + ', QQ号: ' + str(x['user_id']), admins))
 
     res = '群号: {}\n群名称: {}\n管理员数目: {}\n管理员: {}\n创建时间: {}(待处理)\n当前成员数: {}\n最大成员数: {}'.format(
         group_info['group_id'], group_info['group_name'], group_info['admin_count'], admins_formatted,
         group_info['create_time'], group_info['member_count'], group_info['max_member_count'])
+    return res
+
+
+def format_group_member_info(member_info: dict):
+    res = 'QQ号: ' + str(member_info['user_id']) + \
+          ', Q名: ' + member_info['nickname'] + \
+          ', 备注: ' + member_info.setdefault('card', '') + \
+          ', 身份: ' + member_info['role']
     return res
 
 
