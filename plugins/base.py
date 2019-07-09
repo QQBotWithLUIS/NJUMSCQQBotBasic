@@ -6,6 +6,10 @@ from nonebot.command.argfilter import extractors, validators, controllers
 from function.argparse import ArgumentParser
 from function.weather import query_weather
 
+'''
+基本的机器人指令类。
+'''
+
 prompt = '若想使用该指令，可输入\'<指令名> -h/--help\'获知用法'
 prompt_super = '若想使用该指令，可输入\'<指令名> -h/--help\'获知用法(本指令管理员可用)'
 
@@ -114,7 +118,7 @@ async def get_friend_list(session: CommandSession):
     bot = get_bot()
     try:
         l = await bot._get_friend_list()
-        await session.finish(str(l))
+        await session.finish(str(format_friend_list(l)))
     except ActionFailed as e:
         await session.finish('抱歉，查询失败')
 
@@ -222,14 +226,10 @@ async def get_command_help(session: CommandSession):
         await session.send('\n'.join([h0, h1, h2, h3, he]))
 
 
-# @on_command("test", only_to_me=True)
-# async def test_command(session: CommandSession):
-#     res = await get_friend_numbers(session.bot)
-#     await session.send(str(res))
-
-
 def format_friend_list(friend_group_list: list):
-    res = []
+    # 应对获得的好友信息进行格式化，但是因接口不稳定总是失败，暂时搁置
+    res = friend_group_list
+    return res
 
 
 def format_group(group: dict):
@@ -255,6 +255,13 @@ def format_group_member_info(member_info: dict):
           ', 身份: ' + member_info['role']
     return res
 
+
+# @on_command("test", only_to_me=True)
+# async def test_command(session: CommandSession):
+#     res = await get_friend_numbers(session.bot)
+#     await session.send(str(res))
+
+# 未实装的方法-------------------------------------------------------------------------------------------
 
 # 获取所有群的QQ号
 async def get_group_numbers(bot: NoneBot):

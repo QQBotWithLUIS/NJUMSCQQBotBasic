@@ -1,6 +1,13 @@
 from os import path
+
 import nonebot
+
 import config
+
+'''
+机器人启动程序
+'''
+
 
 if __name__ == '__main__':
     nonebot.init(config)

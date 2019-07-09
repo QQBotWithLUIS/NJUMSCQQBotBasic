@@ -9,6 +9,7 @@ class ParserExit(RuntimeError):
         self.message = message
 
 
+# 继承ArgumentParser吗，用于命令行的参数解析，覆盖了父类的一些行为
 class ArgumentParser(ArgumentParser):
     """
     An ArgumentParser wrapper that does some customization
