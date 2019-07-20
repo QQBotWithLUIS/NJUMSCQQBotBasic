@@ -2,8 +2,7 @@ import os.path
 
 from azure.cognitiveservices.language.luis.runtime import LUISRuntimeClient
 from msrest.authentication import CognitiveServicesCredentials
-from config import LUIS_APP_ID
-SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"
+from config import LUIS_APP_ID,SUBSCRIPTION_KEY_ENV_NAME
 
 CWD = os.path.dirname(__file__)
 

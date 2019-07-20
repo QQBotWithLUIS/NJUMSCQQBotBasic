@@ -6,10 +6,9 @@ from nonebot import on_natural_language, NLPSession
 from function.EntitiesSwitch import *
 from function.submit2LUISandGetPrediction import get_prediction
 from function.submit2QnAGetAns import *
-
+from config import SUBSCRIPTION_KEY_ENV_NAME
 # GRP ADD END
 
-SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"
 
 
 @on_natural_language(keywords=('',), only_to_me=True)  # 关掉only_to_me可应答群消息
@@ -24,30 +23,17 @@ async def get_massage(session: NLPSession):
     ans = ""
     # 判断有无实体
     if len(prediction.entities) > 0:
-        # GRP ADD BEGIN
-        # entities_index = entities_match(prediction.entities)
-        entities_index = entities_module_match(prediction)
-        if entities_index == -1:
-            ans = ""
-            # 在这里可以添加一个对管理员的反馈，此时两端的实体识别不一致，出现了匹配的缺失
-        elif entities_index == 0:
-            ans = get_weather_ans(prediction.entities)
-            await session.send(ans)
-            
-        else:
-            # ans = entities_ans(entities_index)
-            ans = entities_module_ans(entities_index)
-            await session.send(ans)
-        # GRP ADD END
+        ans = entities_match_from_file(prediction)
+        await session.send(ans)
         pass
     else:
         query = {
             'question': question,
             'top': 1
         }
-        print("ques" + question)
+        print("ques:" + question)
         ans = get_answers_from_file(question)
-        print("ans" + ans)
+        print("an:s" + ans)
         if ans == "No answer":
             ans = "呜呜呜人家不知道说什么啦" # RPG's advice        
         end = time.clock()
