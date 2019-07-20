@@ -2,7 +2,7 @@ import os.path
 
 from azure.cognitiveservices.language.luis.runtime import LUISRuntimeClient
 from msrest.authentication import CognitiveServicesCredentials
-
+from config import LUIS_APP_ID
 SUBSCRIPTION_KEY_ENV_NAME = "36fb4cae87a246169da2edf98e082113"
 
 CWD = os.path.dirname(__file__)
@@ -40,7 +40,7 @@ def get_prediction(subscription_key, query_in):
 
         print("Executing query: {}".format(query))
         result = client.prediction.resolve(
-            "dc022f4c-ecbb-42cb-ba85-ce87ca42d0bd",  # LUIS Application ID
+            LUIS_APP_ID,  # LUIS Application ID
             query
         )
 

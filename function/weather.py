@@ -1,7 +1,7 @@
 import json
 import os
 from collections import OrderedDict
-
+from config import BOT_NAME
 import requests
 import xmltodict
 
@@ -66,7 +66,7 @@ def get_specific_code(city_name: str, county_name: str) -> str:
 
 
 def pretty(root: OrderedDict) -> str:
-    head = "下面由小澄为您播报{0}的天气情况，此时温度为{1}℃。\n".format(root['city'], root['wendu'])
+    head = "下面由{0}为您播报{1}的天气情况，此时温度为{2}℃。\n".format(BOT_NAME,root['city'], root['wendu'])
     if 'environment' in root:
         environment = root['environment']
         envir = '空气指数(AQI)是{0}，空气质量为{1}，风力等级为{2}。小澄的建议是{3}。\n'.format(environment['aqi'], environment['quality'],
@@ -86,7 +86,7 @@ def pretty(root: OrderedDict) -> str:
         .format(zhishus[10]['value'], zhishus[10]['detail'])
 
     tomorrow = forecast[0]
-    head = head + "下面由小澄播报明天的天气状况，明天即{0}，最{1}，最{2}，白天{3}，夜晚{4}。不知道小澄的天气播报是否让您满意呢？(#^.^#)" \
+    head = head + "下面由"+BOT_NAME+"播报明天的天气状况，明天即{0}，最{1}，最{2}，白天{3}，夜晚{4}。不知道"+BOT_NAME+"的天气播报是否让您满意呢？(#^.^#)" \
         .format(tomorrow['date'], tomorrow['high'], tomorrow['low'], tomorrow['day']['type'], tomorrow['night']['type'])
     return head
 

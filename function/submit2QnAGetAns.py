@@ -3,7 +3,7 @@
 import http.client
 import json
 import random
-
+from config import QNA_FILEPATH
 # a valid host name.
 host = "se-service-robot.azurewebsites.net"
 
@@ -45,7 +45,7 @@ def get_answers(content):
 
 
 def get_answers_from_file(content):
-    with open("files/qna.json", "r", encoding="UTF-8") as qna:
+    with open(QNA_FILEPATH, "r", encoding="UTF-8") as qna:
         qna_list = json.load(qna)
         for item in qna_list["qna"]:
             if item["intent"] == content:

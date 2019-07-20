@@ -23,7 +23,7 @@ def entities_ans(index):
     ]
     return ans_list[index]
 
-#def weather_query_match(data):
+
 
 
 def entities_module_match(full_data):
@@ -57,6 +57,33 @@ def entities_module_match(full_data):
         return ret_index
 
 
+
+
+def entities_match_from_file(full_data):
+    """前面的函数虽然实现了一定的功能，但是在同一大类的实体识别的时候，运维十分的繁琐
+       或许可以增加一个以大类进行识别的方式"""
+
+    data = full_data.entities
+
+    if full_data.top_scoring_intent.intent  == "天气.查询天气":
+        return 0
+    else:
+        # entity_module_find = 0
+        power = 0.0000000
+        # ret_list = ["NULL"]
+        ret_index = -1
+
+        for entity_module in entities_module_list:
+            for entity in data:
+                if entity.as_dict()["entity"] in entity_module:
+                    # print(float(entity.as_dict()["score"]))
+                    # return entities_module_list.index(entity_module) #如果是直接返回的话，忽略了权重这一个指标
+                    if float(entity.as_dict()["score"]) > power:
+                        ret_index = entities_module_list.index(entity_module)
+        return ret_index
+
+
+
 def get_weather_ans(entities):
     if len(entities) == 0:
         return "暂时没有查询到您想要的天气"
@@ -81,8 +108,6 @@ def get_weather_ans(entities):
             ans = query_weather(city_name)
             return ans
             
-
-
 
 
 
