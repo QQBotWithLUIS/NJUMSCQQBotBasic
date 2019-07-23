@@ -43,24 +43,6 @@ def get_prediction(subscription_key, query_in):
             query
         )
 
-        # For tests
-
-        # print("\nDetected intent: {} (score: {:d}%)".format(
-        #     result.top_scoring_intent.intent,
-        #     int(result.top_scoring_intent.score*100)
-        # ))
-
-        # print("Detected entities:")
-        # for entity in result.entities:
-        #     print("\t-> Entity '{}' (type: {}, score:{:d}%)".format(
-        #         entity.entity,
-        #         entity.type,
-        #         int(entity.additional_properties['score']*100)
-        #     ))
-            
-        # print("\nComplete result object as dictionary")
-        # pprint(result.as_dict())
-
         return result
 
     except Exception as err:

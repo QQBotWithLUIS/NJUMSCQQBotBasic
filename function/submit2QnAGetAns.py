@@ -15,7 +15,6 @@ question = {
 
 def pretty_print(content):
     # Note: We convert content to and from an object so we can pretty-print it.
-    # print ("content"+content)
     return json.dumps(json.loads(content), indent=4)
 
 def get_answers_from_file(content):
@@ -24,7 +23,7 @@ def get_answers_from_file(content):
         for item in qna_list["qna"]:
             if item["intent"] == content:
                 return item["answers"][random.randint(0, len(item["answers"]) - 1)]
-        return "No answer"
+        return None
 
 # Convert the request to a string.
 # content = json.dumps(question)

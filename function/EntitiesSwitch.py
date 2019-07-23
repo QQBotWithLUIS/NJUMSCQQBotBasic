@@ -9,21 +9,25 @@ def entities_match_from_file(full_data):
     """前面的函数虽然实现了一定的功能，但是在同一大类的实体识别的时候，运维十分的繁琐
        或许可以增加一个以大类进行识别的方式"""
 
-    data = full_data.entities
+    entity_data = full_data.entities
+    intent_data = full_data.top_scoring_intent.intent
 
     if full_data.top_scoring_intent.intent  == "天气.查询天气":
-        return get_weather_ans(data)
+        return get_weather_ans(entity_data)
     else:
         # entity_module_find = 0
         power = 0.0000000
 
         with open(ENTITY_FILEPATH, "r", encoding="UTF-8") as entities:
             entity_list = json.load(entities)
-            for input_entity in data:
+            for input_entity in entity_data:
                 for item in entity_list["entities_and_answer"]:
-                    if input_entity in item["entities"] and float(input_entity.as_dict()["score"]) > power:
+                    # 目前entity只有simple和list两种形式才这么写 
+                    if intent_data == item["intent"] and \
+                        (input_entity.entity in item["entities"] \
+                            or input_entity.additional_properties["resolution"]["values"][0] in item["entities"]) :
                         return item["answers"][random.randint(0, len(item["answers"]) - 1)]         
-        return "No answer"
+        return None
 
 
 
